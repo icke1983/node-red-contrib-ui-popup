@@ -1,0 +1,134 @@
+[
+    {
+        "id": "c7d628f53c872390",
+        "type": "inject",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "240,50,100",
+        "payloadType": "str",
+        "x": 170,
+        "y": 340,
+        "wires": [
+            [
+                "fcd59753a135e5c5"
+            ]
+        ]
+    },
+    {
+        "id": "01c7fcc8dc5784d4",
+        "type": "ui_popup-colorpicker",
+        "z": "e0fb581434c25cc7",
+        "order": 7,
+        "name": "",
+        "group": "64704468.613964",
+        "width": 1,
+        "height": 1,
+        "class": "",
+        "position": "tr",
+        "label": "Colorpicker",
+        "labelCancelButton": "cancel",
+        "labelOkButton": "ok",
+        "payload": "payload",
+        "payloadType": "msg",
+        "sendValueTo": "payload.color",
+        "sendValueToType": "msg",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 610,
+        "y": 340,
+        "wires": [
+            [
+                "e12d4a70f52d067c"
+            ]
+        ]
+    },
+    {
+        "id": "fcd59753a135e5c5",
+        "type": "function",
+        "z": "e0fb581434c25cc7",
+        "name": "store color",
+        "func": "context.value = context.value || \"0,100,100\";\nif (msg.payload != \"open dialog\") {\n    context.value = msg.payload;\n} else {\n    return {payload: context.value};\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 370,
+        "y": 340,
+        "wires": [
+            [
+                "01c7fcc8dc5784d4"
+            ]
+        ]
+    },
+    {
+        "id": "ab9271acb9d66d18",
+        "type": "ui_button",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "group": "64704468.613964",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "set color",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "open dialog",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 180,
+        "y": 380,
+        "wires": [
+            [
+                "fcd59753a135e5c5"
+            ]
+        ]
+    },
+    {
+        "id": "e12d4a70f52d067c",
+        "type": "debug",
+        "z": "e0fb581434c25cc7",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 790,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "64704468.613964",
+        "type": "ui_group",
+        "name": "Default Group",
+        "tab": "ef22f042.de6a1",
+        "order": 1,
+        "disp": true,
+        "width": "9"
+    },
+    {
+        "id": "ef22f042.de6a1",
+        "type": "ui_tab",
+        "name": "Home Tab",
+        "icon": "dashboard"
+    }
+]

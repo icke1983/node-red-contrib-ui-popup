@@ -1,0 +1,178 @@
+<script type="text/html" data-template-name="ui_popup-simpleslider">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name"">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-code"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"><i class="fa fa-thumb-tack"></i> Position</label>
+        <input type="text" id="node-input-position">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-pencil-square-o"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sndLabel"><i class="fa fa-pencil-square"></i> 2. Label</label>
+        <input type="text" id="node-input-sndLabel">
+    </div>
+    <div class="form-row">
+        <label for="node-input-rangeStart"><i class="fa fa-arrows-h"></i> Range</label>
+        <input type="text" id="node-input-rangeStart" style="width: calc(23.3% - 25px)">
+        <input type="hidden" id="node-input-rangeStartType">
+        <label for="node-input-rangeEnd" style="width: 30px; text-align: center;">to</label>
+        <input type="text" id="node-input-rangeEnd" style="width: calc(23.3% - 25px)">
+        <input type="hidden" id="node-input-rangeEndType">
+        <label for="node-input-rangeStep" style="width: 30px; text-align: right;">Step</label>
+        <input type="text" id="node-input-rangeStep" style="width: calc(23.3% - 25px)">
+        <input type="hidden" id="node-input-rangeStepType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-unit"><i class="fa fa-hashtag"></i> Unit</label>
+        <input type="text" id="node-input-unit">
+    </div>
+    <div class="form-row">
+        <label for="node-input-colorStart"><i class="fa fa-tint"></i> Color 1</label>
+        <input type="color" id="node-input-colorStart" style="width: 100px;">
+        <label></label>
+        <label for="node-input-colorEnd"><i class="fa fa-tint"></i> Color 2</label>
+        <input type="color" id="node-input-colorEnd" style="width: 100px;">
+    </div>
+    <div class="form-row">
+        <label for="node-input-labelCancelButton"><i class="fa fa-pencil-square"></i> canc. Button</label>
+        <input type="text" id="node-input-labelCancelButton">
+    <div class="form-row">
+    </div>
+        <label for="node-input-labelOkButton"><i class="fa fa-pencil-square"></i> ok Button</label>
+        <input type="text" id="node-input-labelOkButton">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope-o"></i> Payload</label>
+        <input type="text" id="node-input-payload">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sendValueTo"><i class="fa fa-share-square-o"></i> send to</label>
+        <input type="text" id="node-input-sendValueTo">
+        <input type="hidden" id="node-input-sendValueToType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-share-square"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ui_popup-simpleslider',{
+        category: 'dashboard',
+        color: 'rgb( 44, 163, 251)',
+        defaults: {
+            order: { value: 0 },
+            name: { value: "Simpleslider" },
+            group: { type: 'ui_group', required: true },
+            width: { value: 1},
+            height: { value: 1 },
+            class: { valie: "" },
+            position: { value: "center" },
+            label: { value: "simpleslider" },
+            sndLabel: { value: "Val" },
+            rangeStart: { value: "0", required: true, validate: RED.validators.typedInput("rangeStartType")},
+            rangeStartType: { value: "num"},
+            rangeEnd: { value: "100", required: true, validate: RED.validators.typedInput("rangeEndType")},
+            rangeEndType: { value: "num"},
+            rangeStep: { value: "1", required: true, validate: RED.validators.typedInput("rangeEndType")},
+            rangeStepType: { value: "num"},
+            unit: { value: "%" },
+            colorStart: { value: "#0000FF" },
+            colorEnd: { value: "#FF0000" },
+            labelCancelButton: { value: "cancel" },
+            labelOkButton: { value: "ok" },
+            payload: { value: "payload.HSBColor", required: true, validate: RED.validators.typedInput("payloadType")},
+            payloadType: { value: "msg"},
+            sendValueTo: { value: "payload", required: true, validate: RED.validators.typedInput("sendValueToType")},
+            sendValueToType: { value: "msg"},
+            topic: { value: "topic", required: false, validate: RED.validators.typedInput("topicType")},
+            topicType: { value: "msg"}
+            
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel:"popup-simpleslider",
+        icon: "simpleslider.png",
+        label: function() {
+            return this.name||"Popup Simpleslider";
+        },
+        
+        oneditprepare: function () {
+            $("#node-input-position").typedInput({
+                types: [
+                    {
+                        value: "center",
+                        options: [
+                            { value: "center", label: "center"},
+                            { value: "tl", label: "top left"},
+                            { value: "tr", label: "top right"},
+                            { value: "bl", label: "bottom left"},
+                            { value: "br", label: "bottom right"}
+                        ]
+                    }
+                ]
+            });
+
+            $("#node-input-rangeStart").typedInput({ 
+                default: 'num', 
+                typeField: $("#node-input-rangeStartType"),
+                types: ['num'] 
+            });
+
+            $("#node-input-rangeEnd").typedInput({ 
+                default: 'num', 
+                typeField: $("#node-input-rangeEndType"),
+                types: ['num'] 
+            });
+
+            $("#node-input-rangeStep").typedInput({ 
+                default: 'num', 
+                typeField: $("#node-input-rangeStepType"),
+                types: ['num'] 
+            });
+
+            $("#node-input-payload").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-payloadType"),
+                types: ['msg'] 
+            });
+
+            $("#node-input-sendValueTo").typedInput({ 
+                default: 'str', 
+                typeField: $("#node-input-sendValueToType"),
+                types: ['msg'] 
+            });
+
+            $("#node-input-topic").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-topicType"),
+                types: ['str', 'msg'] 
+            });
+        },
+        oneditsave: function () {
+            
+        },
+        oneditresize: function(){
+            //updateEditorLayout();
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="ui_popup-simpleslider">
+    <p>node-red-contrib-ui-popup simpleslider is a popup-dialog for the Node-RED Dashboard to set a numeric value</p>
+    <p>input must be a number like <code>num</code></p>
+    <p>output will be a number like <code>num</code></p>    
+</script>

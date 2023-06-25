@@ -1,0 +1,129 @@
+<script type="text/html" data-template-name="ui_popup-colorpicker">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name"">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-code"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"><i class="fa fa-thumb-tack"></i> Position</label>
+        <input type="text" id="node-input-position">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-pencil-square-o"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row">
+        <label for="node-input-labelCancelButton"><i class="fa fa-pencil-square"></i> canc. Button</label>
+        <input type="text" id="node-input-labelCancelButton">
+    <div class="form-row">
+    </div>
+        <label for="node-input-labelOkButton"><i class="fa fa-pencil-square"></i> ok Button</label>
+        <input type="text" id="node-input-labelOkButton">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope-o"></i> Payload</label>
+        <input type="text" id="node-input-payload">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sendValueTo"><i class="fa fa-share-square-o"></i> send to</label>
+        <input type="text" id="node-input-sendValueTo">
+        <input type="hidden" id="node-input-sendValueToType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-share-square"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ui_popup-colorpicker',{
+        category: 'dashboard',
+        color: 'rgb( 44, 163, 251)',
+        defaults: {
+            order: { value: 0 },
+            name: { value:"Colorpicker"},
+            group: { type: 'ui_group', required: true },
+            width: { value: 1},
+            height: { value: 1 },
+            class: { valie: "" },
+            position: { value: "center" },
+            label: { value: "Colorpicker" },
+            labelCancelButton: { value: "cancel" },
+            labelOkButton: { value: "ok" },
+            payload: { value: "payload", required: true, validate: RED.validators.typedInput("payloadType")},
+            payloadType: { value: "msg"},
+            sendValueTo: { value: "payload", required: true, validate: RED.validators.typedInput("sendValueToType")},
+            sendValueToType: { value: "msg"},
+            topic: { value: "topic", required: false, validate: RED.validators.typedInput("topicType")},
+            topicType: { value: "msg"}
+            
+
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel:"popup-colorpicker",
+        icon: "colorpicker.png",
+        label: function() {
+            return this.name||"Popup Colorpicker";
+        },
+        
+        oneditprepare: function () {
+            $("#node-input-position").typedInput({
+                types: [
+                    {
+                        value: "center",
+                        options: [
+                            { value: "center", label: "center"},
+                            { value: "tl", label: "top left"},
+                            { value: "tr", label: "top right"},
+                            { value: "bl", label: "bottom left"},
+                            { value: "br", label: "bottom right"}
+                        ]
+                    }
+                ]
+            });
+
+            $("#node-input-payload").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-payloadType"),
+                types: ['msg'] 
+            });
+
+            $("#node-input-sendValueTo").typedInput({ 
+                default: 'str', 
+                typeField: $("#node-input-sendValueToType"),
+                types: ['msg'] 
+            });
+
+            $("#node-input-topic").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-topicType"),
+                types: ['str', 'msg'] 
+            });
+        },
+        oneditsave: function () {
+            
+        },
+        oneditresize: function(){
+            //updateEditorLayout();
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="ui_popup-colorpicker">
+    <p>node-red-contrib-ui-popup color is a popup-dialog for the Node-RED Dashboard to set a color</p>
+    <p>That colerpicker handle only HSBColor.</p>
+    <p>hue range is 0-360</p>
+    <p>sat range is 0-100</p>
+    <p>bri range is 0-100</p>
+    <p>input must be a string like <code>"hue,sat,bri"</code></p>
+    <p>output will be a String like <code>"hue,sat,bri"</code></p>
+</script>

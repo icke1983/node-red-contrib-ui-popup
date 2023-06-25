@@ -1,0 +1,247 @@
+<script type="text/html" data-template-name="ui_popup-dropdown">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name"">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-code"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"><i class="fa fa-thumb-tack"></i> Position</label>
+        <input type="text" id="node-input-position">
+    </div>
+    <div id="form-row-posX" class="form-row">
+        <label for="node-input-posX"><i class="fa fa-thumb-tack"></i> Position X</label>
+        <input type="text" id="node-input-posX">
+        <input type="hidden" id="node-input-posXType">
+    </div>
+    <div id="form-row-posY" class="form-row">
+        <label for="node-input-posY"><i class="fa fa-thumb-tack"></i> Position Y</label>
+        <input type="text" id="node-input-posY">
+        <input type="hidden" id="node-input-posYType">
+    </div>
+    <div class="form-row form-row-auto-height">
+        <ol id="node-input-options-container"></ol>
+    </div>
+    <div class="form-row">
+        <label for="node-input-sendValueTo"><i class="fa fa-share-square-o"></i> send to</label>
+        <input type="text" id="node-input-sendValueTo">
+        <input type="hidden" id="node-input-sendValueToType">
+    </div>
+</script>
+
+<script type="text/javascript">
+    function updateEditorLayout(){
+        var dlg = $("#dialog-form");
+        var height = dlg.height() - 5;
+        var expandRow = dlg.find('.form-row-auto-height');
+        if(expandRow && expandRow.length){
+            let childRows = dlg.find('.form-row:not(.form-row-auto-height)');
+            for (var i=0; i<childRows.size(); i++) {
+                var cr = $(childRows[i]);
+                if(cr.is(":visible"))
+                    height -= cr.outerHeight(true);
+            }
+            let ol = $(expandRow.find(".red-ui-editableList-list"));
+            if(ol && ol.length){
+                ol.editableList("height",height);
+            } else {
+                expandRow.css("height",height+"px");
+            }
+        } 
+    }
+    
+    RED.nodes.registerType('ui_popup-dropdown',{
+        category: 'dashboard',
+        color: 'rgb( 44, 163, 251)',
+        defaults: {
+            order: { value: 0 },
+            name: { value: "Dropdown" },
+            group: { type: 'ui_group', required: true },
+            width: { value: 1},
+            height: { value: 1 },
+            class: { value: "" },
+            position: { value: "center" },
+            posX: { value: "position.x" },
+            posXType: { value: "msg" },
+            posY: { value: "position.y" },
+            posYType: { value: "msg" },
+            options: {
+                value: [],
+                validate: function (values) {
+                    if(values === undefined){return false;}
+                    for(var i in values) {
+                        if(values[i].label === undefined || values[i].label == ""){return false;}
+                        if(values[i].icon === undefined){return false;}
+                        if(values[i].topic === undefined){return false;}
+                        if(values[i].payload === undefined){return false;}
+                    }
+                    return true;
+                }
+            },
+            sendValueTo: { value: "payload", required: true, validate: RED.validators.typedInput("sendValueToType")},
+            sendValueToType: { value: "msg"}
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel:"popup-dropdown",
+        icon: "dropdown.png",
+        label: function() {
+            return this.name||"Popup dropdown";
+        },
+        
+        oneditprepare: function () {
+            var listborder = $(".red-ui-editableList-border").css('border-radius', '0px 0px 4px 4px');
+            //Validate and add an item
+            function validate() {
+                var self = this
+                this.options = [];
+                var optionsList = $("#node-input-options-container").editableList('items');
+                optionsList.each(function (i) {
+                    var option = $(this);
+                    var curr = {};
+                    curr["label"] = option.find(".node-input-option-label").val();
+                    curr["icon"] = option.find(".node-input-option-icon").val();
+                    curr["topic"] = option.find(".node-input-option-topic").val();
+                    curr["topicType"] = option.find(".node-input-option-topicType").val();
+                    curr["payload"] = option.find(".node-input-option-payload").val();
+                    curr["payloadType"] = option.find(".node-input-option-payloadType").val();
+                    self.options.push(curr);
+                });
+            }
+            $("#node-input-position").typedInput({
+                types: [
+                    {
+                        value: "center",
+                        options: [
+                            { value: "center", label: "center"},
+                            { value: "tl", label: "top left"},
+                            { value: "tr", label: "top right"},
+                            { value: "bl", label: "bottom left"},
+                            { value: "br", label: "bottom right"},
+                            { value: "man", label: "manual"}
+                        ]
+                    }
+                ]
+            });
+            
+            $("#node-input-posX").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-posXType"),
+                types: ['msg', 'num'] 
+            });
+            $("#node-input-posY").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-posYType"),
+                types: ['msg', 'num'] 
+            });
+
+            $("#node-input-position").change(function () {
+                if ( this.value == "man" ) {
+                    $("#form-row-posX").show();
+                    $("#form-row-posY").show();
+                } else {
+                    $("#form-row-posX").hide();
+                    $("#form-row-posY").hide();
+                }
+            });
+
+            $("#node-input-sendValueTo").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-sendValueToType"),
+                types: ['msg'] 
+            });
+
+            var optionsList = $("#node-input-options-container").css('min-height','150px').css('min-width','500px').editableList({
+                header: $("<div>").css({'padding-left': '32px', 'background-color': 'var(--red-ui-form-button-background)'}).append($.parseHTML(
+                    "<div>" +
+                    "<div style='width: 150px; margin-left: 5px; margin-right: 5px; display: inline-grid'><b>Label</b></div>" +
+                    "<div style='width: 150px; margin-left: 5px; margin-right: 5px; display: inline-grid'><b>Icon</b></div>" +
+                    "<div style='width: 150px; margin-left: 5px; margin-right: 5px; display: inline-grid'><b>Topic</b></div>" +
+                    "<div style='width: 150px; margin-left: 5px; margin-right: 5px; display: inline-grid'><b>Payload</b></div>" +
+                    "</div>")),
+
+                addItem: function (container, i, option) {
+                    
+
+                    var row = $('<div/>',{class: "container-row"} ).css({"line-height": "0px"}).appendTo(container);
+                    
+                    var labelField = $('<input/>', { class: "node-input-option-label", type: "text" }).css({ "width": "150px", "margin-left": "5px", "margin-right": "5px" }).appendTo(row);
+                    labelField.val(option.label || "option_" + i);
+                    
+                    var iconField = $('<input/>', { class: "node-input-option-icon", type: "text" }).css({ "width": "150px", "margin-left": "5px", "margin-right": "5px" }).appendTo(row);
+                    iconField.val(option.icon || "" );
+
+                    var topicField = $('<input/>', { class: "node-input-option-topic", type: "text" }).css({ "width": "150px", "margin-left": "5px", "margin-right": "5px" }).appendTo(row);
+                    var topicTypeField = $('<input/>',{class:"node-input-option-topicType",type:"hidden"}).appendTo(row);
+                    var topicType = option.topicType || "str";
+
+                    topicField.typedInput({
+                        default: "str",
+                        typeField: topicTypeField,
+                        types: ['str', 'msg']
+                    });
+                    topicField.typedInput("type", topicType);              
+                    topicField.typedInput("value", option.topic); 
+                    
+                    var payloadField = $('<input/>', { class: "node-input-option-payload", type: "text" }).css({ "width": "150px", "margin-left": "5px", "margin-right": "5px" }).appendTo(row);
+                    var payloadTypeField = $('<input/>',{class:"node-input-option-payloadType",type:"hidden"}).appendTo(row);
+                    var payloadType = option.payloadType || "str";
+
+                    payloadField.typedInput({
+                        default: "str",
+                        typeField: payloadTypeField,
+                        types: ['str', 'num', 'bool', 'msg']
+                    });
+                    payloadField.typedInput("type", payloadType);              
+                    payloadField.typedInput("value", option.payload); 
+                    
+                    validate();
+                    
+                },
+                removeItem: function (data) {
+                    validate()
+                },
+                removable: true,
+                sortable: true,
+
+            });
+
+            //Add existing options
+            if (this.options) {
+                this.options.forEach(function (option, index) {
+                    optionsList.editableList('addItem', { label: option.label, icon: option.icon, topic: option.topic, topicType: option.topicType, payload: option.payload, payloadType: option.payloadType});
+                });
+            }
+        },
+        oneditsave: function () {
+            var self = this;
+            self.options = [];
+            var optionsList = $("#node-input-options-container").editableList('items');
+            optionsList.each(function (i) {
+                var option = $(this);
+                var curr = {};
+                curr["label"] = option.find(".node-input-option-label").val();
+                curr["icon"] = option.find(".node-input-option-icon").val();
+                curr["topic"] = option.find(".node-input-option-topic").val();
+                curr["topicType"] = option.find(".node-input-option-topicType").val();
+                curr["payload"] = option.find(".node-input-option-payload").val();
+                curr["payloadType"] = option.find(".node-input-option-payloadType").val();
+                self.options.push(curr);
+            });
+            
+        },
+        oneditresize: function(){
+            updateEditorLayout();
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="ui_popup-dropdown">
+    <p>node-red-contrib-ui-popup dropdown is a popup-dialog dropdown for the Node-RED Dashboard</p>
+</script>

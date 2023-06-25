@@ -1,0 +1,144 @@
+[
+    {
+        "id": "bab187753b170c06",
+        "type": "inject",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "70",
+        "payloadType": "num",
+        "x": 170,
+        "y": 580,
+        "wires": [
+            [
+                "f8c77d5638e1cc09"
+            ]
+        ]
+    },
+    {
+        "id": "f868e2f45d7e4c24",
+        "type": "ui_popup-simpleslider",
+        "z": "e0fb581434c25cc7",
+        "order": 8,
+        "name": "",
+        "group": "64704468.613964",
+        "width": 1,
+        "height": 1,
+        "class": "",
+        "position": "bl",
+        "label": "simpleslider",
+        "sndLabel": "",
+        "rangeStart": "0",
+        "rangeStartType": "num",
+        "rangeEnd": "100",
+        "rangeEndType": "num",
+        "rangeStep": "1",
+        "rangeStepType": "num",
+        "unit": "&#037;",
+        "colorStart": "#0000ff",
+        "colorEnd": "#ff0000",
+        "labelCancelButton": "cancel",
+        "labelOkButton": "ok",
+        "payload": "payload",
+        "payloadType": "msg",
+        "sendValueTo": "payload",
+        "sendValueToType": "msg",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 530,
+        "y": 580,
+        "wires": [
+            [
+                "2bf5d0290f7aed07"
+            ]
+        ]
+    },
+    {
+        "id": "bebf2a611baa0031",
+        "type": "ui_button",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "group": "64704468.613964",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "set simple value",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "open dialog",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 140,
+        "y": 620,
+        "wires": [
+            [
+                "f8c77d5638e1cc09"
+            ]
+        ]
+    },
+    {
+        "id": "f8c77d5638e1cc09",
+        "type": "function",
+        "z": "e0fb581434c25cc7",
+        "name": "store value",
+        "func": "context.value = context.value || 0;\nif (msg.payload != \"open dialog\") {\n    context.value = msg.payload;\n} else {\n    return {payload: context.value};\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 330,
+        "y": 580,
+        "wires": [
+            [
+                "f868e2f45d7e4c24"
+            ]
+        ]
+    },
+    {
+        "id": "2bf5d0290f7aed07",
+        "type": "debug",
+        "z": "e0fb581434c25cc7",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 580,
+        "wires": []
+    },
+    {
+        "id": "64704468.613964",
+        "type": "ui_group",
+        "name": "Default Group",
+        "tab": "ef22f042.de6a1",
+        "order": 1,
+        "disp": true,
+        "width": "9"
+    },
+    {
+        "id": "ef22f042.de6a1",
+        "type": "ui_tab",
+        "name": "Home Tab",
+        "icon": "dashboard"
+    }
+]

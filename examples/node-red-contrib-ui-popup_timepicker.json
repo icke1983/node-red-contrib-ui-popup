@@ -1,0 +1,196 @@
+[
+    {
+        "id": "2651bd0a170b2dc9",
+        "type": "inject",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "07:10",
+        "payloadType": "str",
+        "x": 170,
+        "y": 80,
+        "wires": [
+            [
+                "f92e3af165b8aee2"
+            ]
+        ]
+    },
+    {
+        "id": "6f5cb6b9a1816fe9",
+        "type": "inject",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "15:30",
+        "payloadType": "str",
+        "x": 170,
+        "y": 120,
+        "wires": [
+            [
+                "f92e3af165b8aee2"
+            ]
+        ]
+    },
+    {
+        "id": "08f232ee31727a73",
+        "type": "inject",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "18:45",
+        "payloadType": "str",
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "f92e3af165b8aee2"
+            ]
+        ]
+    },
+    {
+        "id": "f0c4bc2d21ac60ba",
+        "type": "ui_popup-timepicker",
+        "z": "e0fb581434c25cc7",
+        "order": 7,
+        "name": "",
+        "group": "64704468.613964",
+        "width": 1,
+        "height": 1,
+        "class": "",
+        "position": "tl",
+        "label": "Timepicker1",
+        "labelCancelButton": "cancel",
+        "labelOkButton": "ok",
+        "payload": "payload",
+        "payloadType": "msg",
+        "sendValueTo": "payload",
+        "sendValueToType": "msg",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 710,
+        "y": 140,
+        "wires": [
+            [
+                "4686c5cf57d275f4"
+            ]
+        ]
+    },
+    {
+        "id": "4686c5cf57d275f4",
+        "type": "debug",
+        "z": "e0fb581434c25cc7",
+        "name": "debug",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 140,
+        "wires": []
+    },
+    {
+        "id": "1e50741185d41350",
+        "type": "ui_button",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "group": "64704468.613964",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "set time",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "open dialog",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 160,
+        "y": 200,
+        "wires": [
+            [
+                "f92e3af165b8aee2"
+            ]
+        ]
+    },
+    {
+        "id": "f92e3af165b8aee2",
+        "type": "function",
+        "z": "e0fb581434c25cc7",
+        "name": "store time",
+        "func": "context.value = context.value || \"00:00\";\nif (msg.payload != \"open dialog\") {\n    context.value = msg.payload;\n} else {\n    return {payload: context.value};\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 460,
+        "y": 140,
+        "wires": [
+            [
+                "f0c4bc2d21ac60ba"
+            ]
+        ]
+    },
+    {
+        "id": "64704468.613964",
+        "type": "ui_group",
+        "name": "Default Group",
+        "tab": "ef22f042.de6a1",
+        "order": 1,
+        "disp": true,
+        "width": "9"
+    },
+    {
+        "id": "ef22f042.de6a1",
+        "type": "ui_tab",
+        "name": "Home Tab",
+        "icon": "dashboard"
+    }
+]

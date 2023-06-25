@@ -1,0 +1,184 @@
+<script type="text/html" data-template-name="ui_popup-colortemp">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name"">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-code"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"><i class="fa fa-thumb-tack"></i> Position</label>
+        <input type="text" id="node-input-position">
+    </div>
+    <div class="form-row">
+        <label for="node-input-label"><i class="fa fa-pencil-square-o"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row">
+        <label for="node-input-rangeStart"><i class="fa fa-arrows-h"></i> Range</label>
+        <input type="text" id="node-input-rangeStart" style="width: calc(35% - 18px)">
+        <input type="hidden" id="node-input-rangeStartType">
+        <label for="node-input-rangeEnd" style="width: 30px">to</label>
+        <input type="text" id="node-input-rangeEnd" style="width: calc(35% - 18px)">
+        <input type="hidden" id="node-input-rangeEndType">
+    </div>
+    <div class="form-row">
+        <label><i class="fa fa-hashtag"></i> Unit</label>
+        <span id="unitKelvin">Kelvin</span>
+        <input id="node-input-unitKelvin" type="checkbox" style="display: none;">
+        <i id="unitIcon" style="vertical-align: bottom; cursor: pointer;" class="fa fa-toggle-on fa-2x fa-rotate-180"></i>
+        <span id="unitMireds">mireds</span>
+    </div>
+    <div class="form-row">
+        <label for="node-input-labelCancelButton"><i class="fa fa-pencil-square"></i> canc. Button</label>
+        <input type="text" id="node-input-labelCancelButton">
+    <div class="form-row">
+    </div>
+        <label for="node-input-labelOkButton"><i class="fa fa-pencil-square"></i> ok Button</label>
+        <input type="text" id="node-input-labelOkButton">
+    </div>
+    <div class="form-row">
+        <label for="node-input-payload"><i class="fa fa-envelope-o"></i> Payload</label>
+        <input type="text" id="node-input-payload">
+        <input type="hidden" id="node-input-payloadType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-sendValueTo"><i class="fa fa-share-square-o"></i> send to</label>
+        <input type="text" id="node-input-sendValueTo">
+        <input type="hidden" id="node-input-sendValueToType">
+    </div>
+    <div class="form-row">
+        <label for="node-input-topic"><i class="fa fa-share-square"></i> Topic</label>
+        <input type="text" id="node-input-topic">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ui_popup-colortemp',{
+        category: 'dashboard',
+        color: 'rgb( 44, 163, 251)',
+        defaults: {
+            order: { value: 0 },
+            name: { value: "Colortemp" },
+            group: { type: 'ui_group', required: true },
+            width: { value: 1},
+            height: { value: 1 },
+            class: { valie: "" },
+            position: { value: "center" },
+            label: { value: "colortemp" },
+            rangeStart: { value: "2200", required: true, validate: RED.validators.typedInput("rangeStartType")},
+            rangeStartType: { value: "num"},
+            rangeEnd: { value: "6500", required: true, validate: RED.validators.typedInput("rangeEndType")},
+            rangeEndType: { value: "num"},
+            unitKelvin: { value: true },
+            labelCancelButton: { value: "cancel" },
+            labelOkButton: { value: "ok" },
+            payload: { value: "payload.HSBColor", required: true, validate: RED.validators.typedInput("payloadType")},
+            payloadType: { value: "msg"},
+            sendValueTo: { value: "payload", required: true, validate: RED.validators.typedInput("sendValueToType")},
+            sendValueToType: { value: "msg"},
+            topic: { value: "topic", required: false, validate: RED.validators.typedInput("topicType")},
+            topicType: { value: "msg"}
+        },
+        inputs:1,
+        outputs:1,
+        paletteLabel:"popup-colortemp",
+        icon: "colortemp.png",
+        label: function() {
+            return this.name||"Popup Colortemp";
+        },
+        
+        oneditprepare: function () {
+            $("#node-input-position").typedInput({
+                types: [
+                    {
+                        value: "center",
+                        options: [
+                            { value: "center", label: "center"},
+                            { value: "tl", label: "top left"},
+                            { value: "tr", label: "top right"},
+                            { value: "bl", label: "bottom left"},
+                            { value: "br", label: "bottom right"}
+                        ]
+                    }
+                ]
+            });
+
+            $("#node-input-topic").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-topicType"),
+                types: ['str', 'msg'] 
+            });
+
+            $("#node-input-rangeStart").typedInput({ 
+                default: 'num', 
+                typeField: $("#node-input-rangeStartType"),
+                types: ['num'] 
+            });
+
+            $("#node-input-rangeEnd").typedInput({ 
+                default: 'num', 
+                typeField: $("#node-input-rangeEndType"),
+                types: ['num'] 
+            });
+
+            $("#unitIcon").click(function () {
+                if ( $('#node-input-unitKelvin').prop('checked') ) {
+                    $('#node-input-unitKelvin').prop('checked', false);
+                    $("#unitIcon").removeClass("fa-rotate-180");
+                    $("#unitMireds").css('opacity',"1");
+                    $("#unitKelvin").css('opacity',"0.4");
+                } else {
+                    $('#node-input-unitKelvin').prop('checked', true);
+                    $("#unitIcon").addClass("fa-rotate-180");
+                    $("#unitMireds").css('opacity',"0.4");
+                    $("#unitKelvin").css('opacity',"1");
+                }
+            });
+            
+            $('#node-input-unitKelvin').change(function () {
+                if (this.checked == true) {
+                    $("#unitIcon").addClass("fa-rotate-180");
+                    $("#unitMireds").css('opacity',"0.4");
+                    $("#unitKelvin").css('opacity',"1");
+                }else{
+                    $("#unitIcon").removeClass("fa-rotate-180");
+                    $("#unitMireds").css('opacity',"1");
+                    $("#unitKelvin").css('opacity',"0.4");
+                }
+            });
+
+            $("#node-input-payload").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-payloadType"),
+                types: ['msg'] 
+            });
+
+            $("#node-input-sendValueTo").typedInput({ 
+                default: 'str', 
+                typeField: $("#node-input-sendValueToType"),
+                types: ['msg'] 
+            });
+        },
+        oneditsave: function () {
+            
+        },
+        oneditresize: function(){
+            //updateEditorLayout();
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="ui_popup-colortemp">
+    <p>node-red-contrib-ui-popup colortemp is a popup-dialog for the Node-RED Dashboard to set a colortemperature</p>
+    <p>That dialog handle temperature by kelvin or mireds.</p>
+    <p>ct range is manual setted</p>
+    <p>bri range is 0-100</p>
+    <p>input must be a string like <code>"ct,bri"</code></p>       
+    <p>output will be a String like <code>"ct,bri"</code></p>        
+</script>

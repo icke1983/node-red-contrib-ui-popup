@@ -1,0 +1,45 @@
+{
+    "name": "@icke1983/node-red-contrib-ui-popup",
+    "version": "0.9.0",
+    "description": "Node-RED UI Pupup collection",
+    "author": "Jens Rothe",
+    "license": "MIT",
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/icke1983/node-red-contrib-ui-popup.git"
+    },
+    "node-red": {
+        "version": ">=2.2.3",
+        "nodes": {
+            "timepicker": "ui_popup_timepicker.js",
+            "colorpicker": "ui_popup_colorpicker.js",
+            "colortemp": "ui_popup_colortemp.js",
+            "simpleslider": "ui_popup_simpleslider.js",
+            "dropdown": "ui_popup_dropdown.js"
+        }
+    },
+    "engines": {
+        "node": ">=12"
+    },
+    "dependencies": {
+        "node-red-dashboard": "^2.16.0"
+      },
+    "keywords": [
+        "node",
+        "red",
+        "node-red",
+        "nodered",
+        "ui",
+        "dashboard",
+        "popup",
+        "dialog",
+        "slider",
+        "color",
+        "colorpicker",
+        "time",
+        "timepicker",
+        "colortemp",
+        "colortemperature",
+        "temperature"
+    ]
+}
