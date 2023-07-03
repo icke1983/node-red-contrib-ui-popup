@@ -23,7 +23,7 @@
         <label for="node-input-rangeStart"><i class="fa fa-arrows-h"></i> Range</label>
         <input type="text" id="node-input-rangeStart" style="width: calc(35% - 18px)">
         <input type="hidden" id="node-input-rangeStartType">
-        <label for="node-input-rangeEnd" style="width: 30px">to</label>
+        <label for="node-input-rangeEnd" style="width: 30px; text-align: center;">to</label>
         <input type="text" id="node-input-rangeEnd" style="width: calc(35% - 18px)">
         <input type="hidden" id="node-input-rangeEndType">
     </div>
@@ -55,6 +55,7 @@
     <div class="form-row">
         <label for="node-input-topic"><i class="fa fa-share-square"></i> Topic</label>
         <input type="text" id="node-input-topic">
+        <input type="hidden" id="node-input-topicType">
     </div>
 </script>
 
@@ -109,12 +110,6 @@
                 ]
             });
 
-            $("#node-input-topic").typedInput({ 
-                default: 'msg', 
-                typeField: $("#node-input-topicType"),
-                types: ['str', 'msg'] 
-            });
-
             $("#node-input-rangeStart").typedInput({ 
                 default: 'num', 
                 typeField: $("#node-input-rangeStartType"),
@@ -163,6 +158,12 @@
                 default: 'str', 
                 typeField: $("#node-input-sendValueToType"),
                 types: ['msg'] 
+            });
+
+            $("#node-input-topic").typedInput({ 
+                default: 'msg', 
+                typeField: $("#node-input-topicType"),
+                types: ['str', 'msg'] 
             });
         },
         oneditsave: function () {

@@ -1,0 +1,91 @@
+<script type="text/html" data-template-name="ui_popup-iframe">
+    <div class="form-row">
+        <label for="node-input-name"><i class="fa fa-tag"></i> Name</label>
+        <input type="text" id="node-input-name"">
+    </div>
+    <div class="form-row">
+        <label for="node-input-group"><i class="fa fa-table"></i> Group</label>
+        <input type="text" id="node-input-group">
+    </div>
+    <div class="form-row">
+        <label for="node-input-class"><i class="fa fa-code"></i> Class</label>
+        <input type="text" id="node-input-class">
+    </div>
+    <div class="form-row">
+        <label for="node-input-position"><i class="fa fa-thumb-tack"></i> Position</label>
+        <input type="text" id="node-input-position">
+    </div>
+    <div class="form-row">
+        <label for="node-input-documentWidth"><i class="fa fa-arrows-h"></i> Width</label>
+        <input type="text" id="node-input-documentWidth" style="width: 100px;">
+        <label></label>
+        <label for="node-input-documentHeight"><i class="fa fa-arrows-v"></i> Height</label>
+        <input type="text" id="node-input-documentHeight" style="width: 100px;">
+    </div>
+    <div class="form-row">    
+        <label for="node-input-label"><i class="fa fa-pencil-square-o"></i> Label</label>
+        <input type="text" id="node-input-label">
+    </div>
+    <div class="form-row">
+        <label for="node-input-url"><i class="fa fa-globe"></i> URL</label>
+        <input type="text" id="node-input-url">
+    </div>
+</script>
+
+<script type="text/javascript">
+    RED.nodes.registerType('ui_popup-iframe',{
+        category: 'dashboard',
+        color: 'rgb( 44, 163, 251)',
+        defaults: {
+            order: { value: 0 },
+            name: { value:"iframe"},
+            group: { type: 'ui_group', required: true },
+            width: { value: 1},
+            height: { value: 1 },
+            class: { valie: "" },
+            position: { value: "center" },
+            documentWidth: {value: "100%"},
+            documentHeight: {value: "100%"},
+            label: { value: "iframe" },
+            url: { value: "http://" } 
+        
+        },
+        inputs:1,
+        outputs:0,
+        paletteLabel:"popup-iframe",
+        icon: "iframe.png",
+        label: function() {
+            return this.name||"Popup iframe";
+        },
+        
+        oneditprepare: function () {
+            var dialog = $("#dialog-form").css('min-width', '600px');
+            $("#node-input-position").typedInput({
+                types: [
+                    {
+                        value: "center",
+                        options: [
+                            { value: "center", label: "center"},
+                            { value: "tl", label: "top left"},
+                            { value: "tr", label: "top right"},
+                            { value: "bl", label: "bottom left"},
+                            { value: "br", label: "bottom right"}
+                        ]
+                    }
+                ]
+            });
+        },
+        oneditsave: function () {
+            
+        },
+        oneditresize: function(){
+            //updateEditorLayout();
+        }
+    });
+</script>
+
+<script type="text/html" data-help-name="ui_popup-iframe">
+    <p>node-red-contrib-ui-popup iframe is a popup-dialog for the Node-RED Dashboard to show a external Webside</p>
+    <p>That iframe will be shown on input.</p>
+    <p>input must be the string <code>"show"</code></p>
+</script>

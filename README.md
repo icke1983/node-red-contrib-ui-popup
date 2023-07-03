@@ -27,25 +27,29 @@ This is a collection of popup-dialogues for the node-red dashboard.
 
 The following dialogues are available.
 
-### timepicker
+### timepicker node
 
 ![timepicker Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/timepicker.PNG)
 
-### colorpicker
+### colorpicker node
 
 ![colorpicker Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/colorpicker.PNG)
 
-### colortemp
+### colortemp node
 
 ![colortemp Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/colortemp.PNG)
 
-### simpleslider
+### simpleslider node
 
 ![simpleslider Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/simpleslider.PNG)
 
-### dropdown
+### dropdown node
 
 ![dropdown Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/dropdown.PNG)
+
+### iframe node
+
+![iframe Example](https://raw.githubusercontent.com/icke1983/node-red-contrib-ui-popup/master/images/iframe.PNG)
 
 ## Inspiration and thanking
 

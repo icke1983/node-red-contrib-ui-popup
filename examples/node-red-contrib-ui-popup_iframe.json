@@ -1,0 +1,64 @@
+[
+    {
+        "id": "711945280a59f289",
+        "type": "ui_popup-iframe",
+        "z": "e0fb581434c25cc7",
+        "order": 3,
+        "name": "iframe",
+        "group": "64704468.613964",
+        "width": 1,
+        "height": 1,
+        "class": "",
+        "position": "center",
+        "documentWidth": "600px",
+        "documentHeight": "300px",
+        "label": "iframe",
+        "url": "https://flows.nodered.org/node/@icke1983/node-red-contrib-ui-popup",
+        "x": 310,
+        "y": 880,
+        "wires": []
+    },
+    {
+        "id": "7fac026916d3f199",
+        "type": "ui_button",
+        "z": "e0fb581434c25cc7",
+        "name": "",
+        "group": "64704468.613964",
+        "order": 8,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "iframe",
+        "tooltip": "",
+        "color": "",
+        "bgcolor": "",
+        "className": "",
+        "icon": "",
+        "payload": "show",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "str",
+        "x": 150,
+        "y": 880,
+        "wires": [
+            [
+                "711945280a59f289"
+            ]
+        ]
+    },
+    {
+        "id": "64704468.613964",
+        "type": "ui_group",
+        "name": "Default Group",
+        "tab": "ef22f042.de6a1",
+        "order": 1,
+        "disp": true,
+        "width": "9"
+    },
+    {
+        "id": "ef22f042.de6a1",
+        "type": "ui_tab",
+        "name": "Home Tab",
+        "icon": "dashboard"
+    }
+]

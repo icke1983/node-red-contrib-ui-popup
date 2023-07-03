@@ -227,10 +227,18 @@ module.exports = function(RED) {
                             $scope.dropdown.style.height = $scope.dropdown.firstElementChild.offsetHeight.toString()+"px";
                             $scope.dropdown.style.width = $scope.dropdown.firstElementChild.offsetWidth.toString()+"px";
                             if ($scope.msgPosX != null) {
-                                $scope.dropdown.style.left = msg.ui_popup_dropdown_posX+"px";
+                                if(parseInt(msg.ui_popup_dropdown_posX) + $scope.dropdown.offsetWidth >= window.innerWidth) {
+                                    $scope.dropdown.style.left = (window.innerWidth - $scope.dropdown.offsetWidth).toString()+"px";
+                                } else {
+                                    $scope.dropdown.style.left = msg.ui_popup_dropdown_posX+"px";
+                                }
                             }
                             if ($scope.msgPosY != null) {
-                                $scope.dropdown.style.top = msg.ui_popup_dropdown_posY+"px";
+                                if(parseInt(msg.ui_popup_dropdown_posy) + $scope.dropdown.offsetHeight >= window.innerHeight) {
+                                    $scope.dropdown.style.top = (window.innerHeight - $scope.dropdown.offsetHeight).toString()+"px";
+                                } else {
+                                    $scope.dropdown.style.top = msg.ui_popup_dropdown_posY+"px";
+                                }
                             }
                             $scope.payload = msg.payload;
                             

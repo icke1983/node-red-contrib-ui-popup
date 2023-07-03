@@ -108,10 +108,10 @@ module.exports = function(RED) {
                         <span></span>
                     </div>
                     <div class="nr-dashboard-button">
-                        <button class="md-button md-raised" ng-click="ctCancel()"><span>${config.labelCancelButton}</span></button>
+                        <button class="md-button md-raised" ng-click="sliderCancel()"><span>${config.labelCancelButton}</span></button>
                     </div>
                     <div class="nr-dashboard-button">
-                        <button class="md-button md-raised" ng-click="ctOk()"><span>${config.labelOkButton}</span></button>
+                        <button class="md-button md-raised" ng-click="sliderOk()"><span>${config.labelOkButton}</span></button>
                     </div>
                 </div>
             </div>`;
@@ -203,18 +203,15 @@ module.exports = function(RED) {
                         document.body.appendChild($scope.simpleslider);
                     }, 300);
                     
-                    $scope.ctCancel = function () {
+                    $scope.sliderCancel = function () {
                         $scope.simpleslider.close();
                     }
 
-                    $scope.ctOk = function () {
-                        $scope.ctCancel();
+                    $scope.sliderOk = function () {
+                        $scope.sliderCancel();
                         $scope.send({ui_popup_val: $scope.val});
                     }
-                    $scope.briSet = function() {
-                        $scope.root.style.setProperty("--ui-popup-simpleslider-filter-bri", $scope.bri / 100);
-                    }
-                    
+                   
                     $scope.$watch("msg", function (msg) {
                         if (!msg) { 
                             return;
