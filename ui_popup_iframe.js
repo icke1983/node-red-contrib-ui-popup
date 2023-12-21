@@ -166,10 +166,14 @@ module.exports = function(RED) {
                         if (!msg) { 
                             return;
                         } else {
-                            if (msg.payload == "show") {
-                                $scope.iframe.close();
-                                $scope.iframe.showModal();
-                                document.querySelector("#ui-popup-dialog_"+id+" iframe").setAttribute("src", document.querySelector("#ui-popup-dialog_"+id+" .content").getAttribute("framesrc"))
+                            switch (msg.payload) {
+                                case "show": 
+                                    $scope.iframe.close();
+                                    $scope.iframe.showModal();
+                                    document.querySelector("#ui-popup-dialog_"+id+" iframe").setAttribute("src", document.querySelector("#ui-popup-dialog_"+id+" .content").getAttribute("framesrc"))
+                                    break;
+                                case "hide":
+                                    $scope.dialogClose();
                             }
                         };                        
                     });
